@@ -1,0 +1,259 @@
+# This is the SAM template that represents the architecture of your serverless application
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-basics.html
+# The AWSTemplateFormatVersion identifies the capabilities of the template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  bitter
+# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
+Transform:
+  - AWS::Serverless-2016-10-31
+# Resources declares the AWS resources that you want to include in the stack
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Resources:
+  # BEETS Lambda
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  # This is a Lambda function config associated with the source code: get-all-items.js
+  getAllBeetsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/beets/get-all-beets.handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Get all beets from table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the Beets table
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Beets
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          BEETS: !Ref Beets
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /beets/all
+            Method: GET
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  # This is a Lambda function config associated with the source code: get-by-id.js
+  getBeetByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/beets/get-beet-by-id.handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Get one beet by id from table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the Beets table
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Beets
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          BEETS: !Ref Beets
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /beets/{id}
+            Method: GET
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  # This is a Lambda function config associated with the source code: get-by-id.js
+  deleteBeetByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/beets/delete-beet-by-id.handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Delete one beet by id from table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the Beets table
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Beets
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          BEETS: !Ref Beets
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /beets/{id}
+            Method: DELETE
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  # This is a Lambda function config associated with the source code: put-item.js
+  putBeetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/beets/put-beet.handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Add one beet to table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the Beets table
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Beets
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          BEETS: !Ref Beets
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /beets/
+            Method: POST
+    # USERS Lambda
+  getAllUsersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/users/get-all-users.handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Get all users from table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the Users table
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Users
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          USERS: !Ref Users
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /users/all
+            Method: GET
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  # This is a Lambda function config associated with the source code: get-by-id.js
+  getUserByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/users/get-user-by-id.handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Get one user by id from table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the Users table
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Users
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          USERS: !Ref Users
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /users/{id}
+            Method: GET
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  # This is a Lambda function config associated with the source code: get-by-id.js
+  deleteUserByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/users/delete-user-by-id.handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Delete one user by id from table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the Users table
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Users
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          USERS: !Ref Users
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /users/{id}
+            Method: DELETE
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  # This is a Lambda function config associated with the source code: put-item.js
+  putUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/users/put-user.handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Add one user to table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the Users table
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Users
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          USERS: !Ref Users
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /users/
+            Method: POST
+  # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
+  # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
+  Beets:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+      TableName: beets
+  # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
+  # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
+  Users:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+      TableName: users
+Outputs:
+  WebEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
