@@ -4,20 +4,22 @@
     "version": "0.0.1",
     "private": true,
     "dependencies": {
-        "aws-sdk": "^2.799.0"
+        "aws-sdk": "^2.1058.0",
+        "npm-run-all": "^4.1.5",
+        "uuid": "^8.3.2"
     },
     "devDependencies": {
         "jest": "^26.6.3"
     },
     "scripts": {
         "test": "jest",
-        "start": "sam.cmd local start-api -d 8080 --env-vars env.json",
-        "debug": "sam.cmd local invoke -d 8080 getAllBeetsFunction --env-vars env.json && sam.cmd local start-api -d 8080 --env-vars env.json",
-        "deploy": "sam.cmd build && sam.cmd deploy --guided",
+        "deploy": "sam.cmd build --use-container && sam.cmd deploy --guided",
         "build:container": "sam.cmd build --use-container",
         "start:container": "sam.cmd local start-api -t template.yaml --docker-network local-dynamodb --skip-pull-image --profile default --parameter-overrides 'ParameterKey=StageName,ParameterValue=local ParameterKey=DDBTableName,ParameterValue=local-SingleTable' ",
-        "db:compose": "docker-compose up -d",
-        "db:create": "aws dynamodb create-table --cli-input-json file://db.json --endpoint-url http://localhost:8000",
-        "db:list": "aws dynamodb list-tables --endpoint-url http://localhost:8000"
+        "db:create_dynamodb": "cd local && cd docker && docker-compose up -d && cd .. && cd ..",
+        "db:create_beets_table": "aws dynamodb create-table --cli-input-json file://local/tables/beets.json --endpoint-url http://localhost:8000",
+        "db:create_users_table": "aws dynamodb create-table --cli-input-json file://local/tables/users.json --endpoint-url http://localhost:8000",
+        "db:create_tables": "run-s db:create_beets_table db:create_users_table",
+        "db:list_tables": "aws dynamodb list-tables --endpoint-url http://localhost:8000"
     }
 }

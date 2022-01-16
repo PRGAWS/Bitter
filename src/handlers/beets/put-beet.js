@@ -1,7 +1,8 @@
-// Create clients and set shared const values outside of the handler.
+// Libs
+const uuid = require("uuid");
+const dynamodb = require('aws-sdk/clients/dynamodb');
 
 // Create a DocumentClient that represents the query to add an item
-const dynamodb = require('aws-sdk/clients/dynamodb');
 const docClient = new dynamodb.DocumentClient();
 const localDocClient = new dynamodb.DocumentClient({ endpoint: 'http://dynamo:8000' });
 
@@ -27,17 +28,17 @@ exports.handler = async (event) => {
 
     // Get id and name from the body of the request
     const body = JSON.parse(event.body)
-    const id = body.id;
     const content = body.content;
+    const author = body.author;
 
     // Creates a new item, or replaces an old item with a new item
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property
     var params = {
         TableName: tableName,
         Item: {
-            id: id,
+            id: uuid.v4(),
             content: content,
-            author: "ANON"
+            author: author
         }
     };
 
