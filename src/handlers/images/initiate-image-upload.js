@@ -1,5 +1,7 @@
 'use strict'
 
+const uuid = require("uuid");
+
 const AWS = require('aws-sdk')
 AWS.config.update({ region: process.env.AWS_REGION })
 const s3 = new AWS.S3()
@@ -13,8 +15,7 @@ exports.handler = async (event) => {
 }
 
 const getUploadURL = async function(event) {
-  const randomID = parseInt(Math.random() * 10000000)
-  const Key = `${randomID}.jpg`
+  const Key = uuid.v4()
 
   // Get signed URL from S3
   const s3Params = {
@@ -23,8 +24,7 @@ const getUploadURL = async function(event) {
     Expires: URL_EXPIRATION_SECONDS,
     ContentType: 'image/jpeg',
 
-    // This ACL makes the uploaded object publicly readable. You must also uncomment
-    // the extra permission for the Lambda function in the SAM template.
+    // This ACL makes the uploaded object publicly readable.
     ACL: 'public-read'
   }
 
