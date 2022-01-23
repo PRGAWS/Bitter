@@ -10,7 +10,7 @@
 </head>
 
 <body>
-
+	<!-- Navigatie bar -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mb-5">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="index.html">
@@ -35,7 +35,7 @@
 			</div>
 		</div>
 	</nav>
-
+	<!-- Home page -->
 	<div class="container-fluid" id="home-content" data-parallax="scroll" data-image-src="./img/wall.jpg">
 		<div class="row">
 			<div class="col-12 col-md-12">
@@ -82,55 +82,21 @@
 		</div>
 	</div>
 
-
+	<!-- Wall page :  posted messages are displayed here. Standard you see 3 messages, but can add 2 messages each time you click on the button -->
 	<div class="container d-none" id="wall-content">
 		<div class="row mt-4">
 			<div class="col-md-10 mx-auto">
 				<!-- Timeline -->
 				<div class="timeline timeline-one">
 					<!-- Timeline Item 1 -->
-					<div class="timeline-item">
-						<span class="icon icon-info icon-lg"><i class="fab fa-react"></i></span>
-						<h5 class="my-3">Bittr</h5>
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus inventore obcaecati
-							assumenda error temporibus corrupti quos fugiat dolorum! Nihil, sit iusto similique
-							excepturi temporibus unde deserunt saepe cum vero error magni minus consequatur deleniti
-							suscipit, ea incidunt facilis ullam quo at maiores repellendus nesciunt? Laudantium iure at
-							expedita. Inventore id ducimus, beatae qui dolorum expedita culpa excepturi totam blanditiis
-							error nihil. Esse culpa necessitatibus eveniet iure expedita? Facere, maiores consequuntur.
-							Minus qui ipsam temporibus perspiciatis, vitae reiciendis ea blanditiis voluptate dicta
-							recusandae. Eos assumenda omnis, consectetur eligendi incidunt molestias a consequatur in,
-							ad beatae fuga nihil, id consequuntur magni ratione.
-						</p>
-					</div>
-					<!-- Timeline Item 2 -->
-					<div class="timeline-item">
-						<span class="icon icon-secondary"><i class="fab fa-vuejs"></i></span>
-						<h5 class="my-3">Bittr</h5>
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum incidunt itaque doloribus
-							natus velit ut optio ab, eius mollitia voluptate veritatis deserunt ex nobis, ipsa vitae
-							molestiae vel aperiam similique culpa! Dolor veniam cupiditate accusamus dolorem quaerat
-							saepe delectus ea molestiae at amet, libero ut reprehenderit? Amet impedit sed tempora optio
-							exercitationem ducimus doloremque laudantium nulla vitae quos harum enim, similique possimus
-							nobis ullam aliquam? Voluptate eveniet adipisci repellendus natus!</p>
-					</div>
-					<!-- Timeline Item 3 -->
-					<div class="timeline-item">
-						<span class="icon icon-danger"><i class="fab fa-angular"></i></span>
-						<h5 class="my-3">Bittr</h5>
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, nisi alias, hic maiores
-							quaerat aliquid magnam deleniti velit quibusdam dolorem debitis accusamus laboriosam itaque
-							atque reprehenderit officia non. Quos laborum ex esse corporis tempore debitis, harum quod
-							tempora fugiat neque eius placeat odio repudiandae! Minima amet qui magnam nemo a?</p>
-					</div>
+					<div id="content"></div>
 				</div>
 				<!--End of Timeline-->
 			</div>
-			<button id="btn_comment"> SEE MORE COMMENTS </button>
 		</div>
 	</div>
 
-
+	<!-- About us page -->
 	<div class="container d-none" id="aboutus-content">
 		<div class="row">
 
@@ -156,6 +122,7 @@
 
 	</div>
 
+	<!-- Contact page -->
 	<div class="container-fluid d-none" id="contact-content">
 		<div class="row">
 
@@ -204,35 +171,28 @@
 
 
 	</div>
-
+	<!-- The button with wich you can post a message -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class=" modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Post a Beet!!</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<form>
 					<div class="modal-body">
-
 						<div class="mb-3">
-							<label for="exampleInputEmail1" class="form-label">Email address</label>
-							<input type="email" name="email" class="form-control" id="exampleInputEmail1"
-								aria-describedby="emailHelp">
-							<div id="emailHelp" class="form-text">We'll never share your email with anyone else.
-							</div>
+							<label for="pseudo" class="form-label">Author</label>
+							<input type="text" name="pseudo" class="form-control" id="beetAuthor">
 						</div>
-
 						<div class="form-floating">
-							<textarea class="form-control" name="comment" placeholder="Leave a comment here"
-								id="floatingTextarea2" style="height: 100px"></textarea>
-							<label for="floatingTextarea2">Comments</label>
+							<textarea class="form-control" name="comment" placeholder="Leave you beet here"
+								id="beetContent" style="height: 100px"></textarea>
+							<label for="floatingTextarea2">Beet</label>
 						</div>
-
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" id="btn_save" class="btn btn-primary">Save changes</button>
+						<button type="button" id="post" class="btn btn-primary">Post</button>
 					</div>
 				</form>
 

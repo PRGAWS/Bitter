@@ -16,6 +16,7 @@ $(document).ready(function () {
 	});
 
 	$(".click-wall").click(function () {
+		$(".dynamicBeets").remove();
 		$('#wall-content').show().removeClass('d-none');
 		$('#aboutus-content').hide();
 		$('#home-content').hide();
@@ -31,11 +32,31 @@ $(document).ready(function () {
 
 	});
 
-	$("#btn_save").click(function () {
-
-		alert($("#exampleInputEmail1").val() + "    " + $("#floatingTextarea2").val());
+	$("#post").click(function () {
+		postBeet();
 	})
 })
+
+async function postBeet() {
+	let oData = {
+		author: $("#beetAuthor").val(),
+		content: $("#beetContent").val()
+	};
+	debugger;
+	let oSetting = {
+		url: "http://127.0.0.1:3000/beets/",
+		type: "POST",
+		dataType: "json",
+		data: oData,
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Methods": "*",
+			"Access-Control-Allow-Headers": "*"
+		},
+		crossDomain: true
+	}
+	const beets = await executeAjax(oSetting);
+};
 
 async function fetchBeets() {
 	let oSetting = {
@@ -49,22 +70,29 @@ async function fetchBeets() {
 		},
 		crossDomain: true
 	}
-	const result = await executeAjax(oSetting);
-	debugger;
+	const beets = await executeAjax(oSetting);
+	beets.response.forEach(o => {
+		$("#content").after(`<div class="timeline-item dynamicBeets">
+		<span class="icon icon-info icon-lg"><i class="fab fa-react"></i></span>
+		<h5 class="my-3">${o.author}</h5>
+		<p>${o.content}
+		</p>
+	</div>`);
+	});
 }
 
-
 let executeAjax = async (oSetting) => {
+	// SHOW busyindicator
 	let result;
 	try {
-		const respons = await $.ajax(oSetting);
-		debugger;
+		const response = await $.ajax(oSetting);
 		result = {
 			error: false,
-			response: result
+			response: response
 		};
+		// Hide busy indicator
 	} catch (error) {
-		debugger;
+		// hide busyindicator and show alert with error message
 		result = {
 			error: true,
 			response: error
