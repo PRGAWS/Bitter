@@ -180,11 +180,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/images/initiate-image-upload.handler
-      Runtime: nodejs14.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
       Policies:
         - S3WritePolicy:
             BucketName: !Ref S3UploadBucket
@@ -218,11 +213,6 @@ Resources:
     Type: "AWS::Serverless::Function"
     Properties:
       Handler: src/handlers/images/put-image-metadata.handler
-      Runtime: nodejs14.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
       Environment:
         Variables:
           INDEX_TABLE: !Ref ImagesMetadata
