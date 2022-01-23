@@ -9,23 +9,17 @@ const localDocClient = new dynamodb.DocumentClient({ endpoint: 'http://dynamo:80
 // Get the DynamoDB table name from environment variables
 const tableName = process.env.USERS;
 
-/**
- * A simple example includes a HTTP post method to add one item to a DynamoDB table.
- */
 exports.handler = async (event) => {
     if (event.httpMethod !== 'POST') {
         throw new Error(`postMethod only accepts POST method, you tried: ${event.httpMethod} method.`);
     }
-
     // DB config
     let db = docClient;
     if (process.env.AWS_SAM_LOCAL) {
         db = localDocClient;
     }
-
     // All log statements are written to CloudWatch
     console.info('received:', event);
-
     // Get id and name from the body of the request
     const body = JSON.parse(event.body)
     const firstname = body.firstname;
@@ -33,9 +27,7 @@ exports.handler = async (event) => {
     const email = body.email;
     const password = body.password;
     const beets = [];
-
-    // Creates a new item, or replaces an old item with a new item
-    // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property
+    // DB action
     var params = {
         TableName: tableName,
         Item: {
@@ -47,15 +39,17 @@ exports.handler = async (event) => {
             beets: beets
         }
     };
-
     const result = await db.put(params).promise();
-
+    // Send response
     const response = {
         statusCode: 200,
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Headers": "*"
+        }
     };
-
-    // All log statements are written to CloudWatch
     console.info(`response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`);
     return response;
 }
