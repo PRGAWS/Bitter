@@ -227,6 +227,71 @@ Resources:
           Properties:
             Path: /users/
             Method: POST
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  # This is a Lambda function config associated with the source code: get-by-id.j
+  GetImageUploadURLFunction:
+    # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/images/initiate-image-upload.handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Policies:
+        - S3WritePolicy:
+            BucketName: !Ref S3UploadBucket
+        ## This permission allows the Lambda function to request signed URLs
+        ## for objects that will be publicly readable.
+        - Statement:
+            - Effect: Allow
+              Resource: !Sub "arn:aws:s3:::${S3UploadBucket}/"
+              Action:
+                - s3:putObjectAcl      
+      Environment:
+        Variables:
+          UploadBucket: !Ref S3UploadBucket
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /images
+            Method: GET
+      # Events:
+      #   UploadAssetAPI:
+      #     Type: HttpApi
+      #     Properties:
+      #       Path: /images
+      #       Method: get
+      #       ApiId: !Ref MyApi
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  # This is a Lambda function config associated with the source code: get-by-id.j
+  IndexerFunction:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Handler: src/handlers/images/put-image-metadata.handler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Environment:
+        Variables:
+          INDEX_TABLE: !Ref ImagesMetadata
+      Policies:
+        DynamoDBCrudPolicy:
+          TableName: !Ref ImagesMetadata
+      Events:
+        BucketEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref S3UploadBucket
+            Events:
+              - "s3:ObjectCreated:*"
+
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
   # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
@@ -253,79 +318,58 @@ Resources:
         ReadCapacityUnits: 2
         WriteCapacityUnits: 2
       TableName: users
-  
-# Resources for Image Upload Service
-  MyApi:
-    Type: AWS::Serverless::HttpApi
+  # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
+  # Main table for storing the core entities in the app (uses single table overloaded index design)
+  ImagesMetadata:
+    Type: AWS::Serverless::SimpleTable
     Properties:
-      # CORS configuration - this is open for development only and should be restricted in prod.
-      # See https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapicorsconfiguration.html   
-      CorsConfiguration:
-        AllowMethods:
-          - GET
-          - POST
-          - DELETE
-          - OPTIONS
-        AllowHeaders:
-          - "*"   
-        AllowOrigins: 
-          - "*"      
-
-  ## Lambda functions
-  UploadRequestFunction:
-    # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Type: AWS::Serverless::Function 
-    Properties:
-      CodeUri: getSignedURL/
-      Handler: app.handler
-      Runtime: nodejs12.x
-      Timeout: 3
-      MemorySize: 128
-      Environment:
-        Variables:
-          UploadBucket: !Ref S3UploadBucket  
-      Policies:
-        - S3WritePolicy:
-            BucketName: !Ref S3UploadBucket
-        ## This permission allows the Lambda function to request signed URLs
-        ## for objects that will be publicly readable. Uncomment if you want this ACL.
-        # - Statement:
-        #   - Effect: Allow
-        #     Resource: !Sub 'arn:aws:s3:::${S3UploadBucket}/'
-        #     Action:
-        #       - s3:putObjectAcl
-      Events:
-        UploadAssetAPI:
-          Type: HttpApi
-          Properties:
-            Path: /uploads
-            Method: get
-            ApiId: !Ref MyApi  
-
-  ## S3 bucket
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+      TableName: imagesMetadata
+  # Resources for Image Upload Service
+  # MyApi:
+  #   Type: AWS::Serverless::HttpApi
+  #   Properties:
+  #     # CORS configuration - this is open for development only and should be restricted in prod.
+  #     # See https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapicorsconfiguration.html
+  #     CorsConfiguration:
+  #       AllowMethods:
+  #         - GET
+  #         - POST
+  #         - DELETE
+  #         - OPTIONS
+  #       AllowHeaders:
+  #         - "*"
+  #       AllowOrigins:
+  #         - "*"
+  ## S3 bucket for the images
   S3UploadBucket:
     Type: AWS::S3::Bucket
     Properties:
       CorsConfiguration:
         CorsRules:
-        - AllowedHeaders:
-            - "*"
-          AllowedMethods:
-            - GET
-            - PUT
-            - HEAD
-          AllowedOrigins:
-            - "*"
+          - AllowedHeaders:
+              - "*"
+            AllowedMethods:
+              - GET
+              - PUT
+              - HEAD
+            AllowedOrigins:
+              - "*"
 
 Outputs:
   WebEndpoint:
     Description: "API Gateway endpoint URL for Prod stage"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
-
-# Outputs for Image Upload Service
-  APIendpoint:
-    Description: "HTTP API endpoint URL"
-    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com"
+  # Outputs for Image Upload Service
+  # APIendpoint:
+  #   Description: "HTTP API endpoint URL"
+  #   Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com"
   S3UploadBucketName:
     Description: "S3 bucket for application uploads"
-    Value: !Ref 'S3UploadBucket'    
+    Value: !Ref "S3UploadBucket"

@@ -23,7 +23,6 @@ const getUploadURL = async function(event) {
     Key,
     Expires: URL_EXPIRATION_SECONDS,
     ContentType: 'image/jpeg',
-
     // This ACL makes the uploaded object publicly readable.
     ACL: 'public-read'
   }
@@ -33,6 +32,6 @@ const getUploadURL = async function(event) {
 
   return JSON.stringify({
     uploadURL: uploadURL,
-    Key
+    key: Key
   })
 }
