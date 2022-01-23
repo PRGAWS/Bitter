@@ -42,8 +42,12 @@ async function fetchBeets() {
 		url: "http://127.0.0.1:3000/beets/all",
 		type: "GET",
 		dataType: "json",
-		headers: { "Access-Control-Allow-Origin": "*" },
-		crossDomain: false
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Methods": "*",
+			"Access-Control-Allow-Headers": "*"
+		},
+		crossDomain: true
 	}
 	const result = await executeAjax(oSetting);
 	debugger;
@@ -54,11 +58,13 @@ let executeAjax = async (oSetting) => {
 	let result;
 	try {
 		const respons = await $.ajax(oSetting);
+		debugger;
 		result = {
 			error: false,
 			response: result
 		};
 	} catch (error) {
+		debugger;
 		result = {
 			error: true,
 			response: error
