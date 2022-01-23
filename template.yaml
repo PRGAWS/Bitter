@@ -11,6 +11,23 @@ Transform:
   - AWS::Serverless-2016-10-31
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Globals:
+  Function:
+    Runtime: nodejs14.x
+    Timeout: 180
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Environment:
+      Variables:
+        # Make table name accessible as environment variable from function code during execution
+        BEETS: !Ref Beets
+        USERS: !Ref Users
+  Api:
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+      AllowOrigin: "'*'"
 Resources:
   # BEETS Lambda
   # Each Lambda function is defined by properties:
@@ -20,20 +37,11 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/beets/get-all-beets.handler
-      Runtime: nodejs14.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
       Description: Get all beets from table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the Beets table
         - DynamoDBCrudPolicy:
             TableName: !Ref Beets
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          BEETS: !Ref Beets
       Events:
         Api:
           Type: Api
@@ -47,20 +55,11 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/beets/get-beet-by-id.handler
-      Runtime: nodejs14.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
       Description: Get one beet by id from table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the Beets table
         - DynamoDBCrudPolicy:
             TableName: !Ref Beets
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          BEETS: !Ref Beets
       Events:
         Api:
           Type: Api
@@ -74,20 +73,11 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/beets/delete-beet-by-id.handler
-      Runtime: nodejs14.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
       Description: Delete one beet by id from table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the Beets table
         - DynamoDBCrudPolicy:
             TableName: !Ref Beets
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          BEETS: !Ref Beets
       Events:
         Api:
           Type: Api
@@ -101,20 +91,11 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/beets/put-beet.handler
-      Runtime: nodejs14.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
       Description: Add one beet to table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the Beets table
         - DynamoDBCrudPolicy:
             TableName: !Ref Beets
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          BEETS: !Ref Beets
       Events:
         Api:
           Type: Api
@@ -126,20 +107,11 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/users/get-all-users.handler
-      Runtime: nodejs14.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
       Description: Get all users from table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the Users table
         - DynamoDBCrudPolicy:
             TableName: !Ref Users
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          USERS: !Ref Users
       Events:
         Api:
           Type: Api
@@ -153,20 +125,11 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/users/get-user-by-id.handler
-      Runtime: nodejs14.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
       Description: Get one user by id from table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the Users table
         - DynamoDBCrudPolicy:
             TableName: !Ref Users
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          USERS: !Ref Users
       Events:
         Api:
           Type: Api
@@ -180,20 +143,11 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/users/delete-user-by-id.handler
-      Runtime: nodejs14.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
       Description: Delete one user by id from table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the Users table
         - DynamoDBCrudPolicy:
             TableName: !Ref Users
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          USERS: !Ref Users
       Events:
         Api:
           Type: Api
@@ -207,20 +161,11 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/users/put-user.handler
-      Runtime: nodejs14.x
-      Architectures:
-        - x86_64
-      MemorySize: 128
-      Timeout: 100
       Description: Add one user to table.
       Policies:
         # Give Create/Read/Update/Delete Permissions to the Users table
         - DynamoDBCrudPolicy:
             TableName: !Ref Users
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          USERS: !Ref Users
       Events:
         Api:
           Type: Api
