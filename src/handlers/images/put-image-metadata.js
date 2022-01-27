@@ -2,8 +2,6 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3('2006-03-01');
 const dynamodb = new AWS.DynamoDB('2012-08-10');
 
-const keyRegex = /[^/]+\/([^/]+)\/[^/]+\/([^-]+)-([^.]+).data/;
-
 const INDEX_TABLE = process.env.INDEX_TABLE;
  
 exports.handler = async function(event) {
@@ -21,12 +19,7 @@ async function handleEvent(event) {
 	const object = record.s3.object;
 	const bucket = record.s3.bucket.name;
     const key = decodeURIComponent(object.key.replace(/\+/g, " "));
-    const match = keyRegex.exec(key);
-    if(!match) {
-        console.log("Key did not match pattern. Skipping.");
-        return;
-    }
-
+    
     console.log(`Indexing ${bucket}/${key}`);
 
     const indexItem = {};

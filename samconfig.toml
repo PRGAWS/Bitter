@@ -3,7 +3,7 @@ version = 0.1
 [default.deploy]
 [default.deploy.parameters]
 stack_name = "sam-bitter"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-uej2os9h121l"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-okwzjvj66gu8"
 s3_prefix = "sam-bitter"
 region = "eu-central-1"
 capabilities = "CAPABILITY_IAM"
