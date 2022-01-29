@@ -23,6 +23,7 @@ Globals:
         # Make table name accessible as environment variable from function code during execution
         BEETS: !Ref Beets
         USERS: !Ref Users
+        IMAGESMETADATA: !Ref ImagesMetadata
   Api:
     Cors:
       AllowMethods: "'*'"
@@ -189,23 +190,23 @@ Resources:
             - Effect: Allow
               Resource: !Sub "arn:aws:s3:::${S3UploadBucket}/"
               Action:
-                - s3:putObjectAcl      
+                - s3:putObjectAcl
       Environment:
         Variables:
           UploadBucket: !Ref S3UploadBucket
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /images
-            Method: GET
       # Events:
-      #   UploadAssetAPI:
-      #     Type: HttpApi
+      #   Api:
+      #     Type: Api
       #     Properties:
       #       Path: /images
-      #       Method: get
-      #       ApiId: !Ref MyApi
+      #       Method: GET
+      Events:
+        UploadAssetAPI:
+          Type: HttpApi
+          Properties:
+            Path: /images
+            Method: get
+            ApiId: !Ref MyApi
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
   # This is a Lambda function config associated with the source code: get-by-id.j
@@ -267,21 +268,21 @@ Resources:
         WriteCapacityUnits: 2
       TableName: imagesMetadata
   # Resources for Image Upload Service
-  # MyApi:
-  #   Type: AWS::Serverless::HttpApi
-  #   Properties:
-  #     # CORS configuration - this is open for development only and should be restricted in prod.
-  #     # See https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapicorsconfiguration.html
-  #     CorsConfiguration:
-  #       AllowMethods:
-  #         - GET
-  #         - POST
-  #         - DELETE
-  #         - OPTIONS
-  #       AllowHeaders:
-  #         - "*"
-  #       AllowOrigins:
-  #         - "*"
+  MyApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      # CORS configuration - this is open for development only and should be restricted in prod.
+      # See https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapicorsconfiguration.html
+      CorsConfiguration:
+        AllowMethods:
+          - GET
+          - POST
+          - DELETE
+          - OPTIONS
+        AllowHeaders:
+          - "*"
+        AllowOrigins:
+          - "*"
   ## S3 bucket for the images
   S3UploadBucket:
     Type: AWS::S3::Bucket
@@ -302,9 +303,9 @@ Outputs:
     Description: "API Gateway endpoint URL for Prod stage"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
   # Outputs for Image Upload Service
-  # APIendpoint:
-  #   Description: "HTTP API endpoint URL"
-  #   Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com"
+  APIendpoint:
+    Description: "HTTP API endpoint URL"
+    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com"
   S3UploadBucketName:
     Description: "S3 bucket for application uploads"
     Value: !Ref "S3UploadBucket"
