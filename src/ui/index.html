@@ -36,54 +36,53 @@
 		</div>
 	</nav>
 	<!-- Home page -->
-	<div class="container-fluid" id="home-content" data-parallax="scroll" data-image-src="./img/wall.jpg">
+	<div class="container-fluid parallax-effect" id="home-content" data-parallax="scroll"
+		data-image-src="./img/wall.jpg">
 		<div class="row">
 			<div class="col-12 col-md-12">
+				<section class="vh-100">
+					<div class="container py-5 h-100">
+						<div class="row d-flex justify-content-center align-items-center h-100">
+							<div class="col col-md-9 col-lg-7 col-xl-5">
 
-				<h1>Home Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores corrupti ipsam rem Lorem
-					ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis dignissimos, deleniti facere autem
-					nesciunt, magnam obcaecati quas recusandae cumque distinctio soluta consectetur velit dolorem cum
-					hic sapiente et? In, adipisci veritatis iste molestias inventore quod quis mollitia officiis eos.
-					Sint sequi, quas tenetur accusamus quidem id inventore. Perspiciatis assumenda, eligendi iure
-					nostrum suscipit nihil ab quidem reprehenderit expedita, dicta ratione omnis quis fugiat at aperiam
-					ipsum, iusto quaerat non ea laborum facilis aut. Ipsa, pariatur soluta. Laboriosam quis eos esse
-					facere, sunt nesciunt nihil deserunt saepe, in rerum magnam ab illo aspernatur assumenda. Dolore ex
-					unde fugit enim dignissimos vitae perspiciatis quam, quidem architecto possimus earum quasi
-					repudiandae quis nisi nesciunt ullam eligendi sed. Aspernatur in doloribus eaque eum expedita
-					quisquam modi laborum, quo, laboriosam qui vero eos nesciunt perferendis tempora ea, repudiandae
-					deleniti distinctio dignissimos iusto non ex id. Aliquid delectus provident quae velit eum fugit?
-					Dolorum rem sint alias laboriosam facilis pariatur nemo, id ad placeat iure possimus aliquid odit
-					blanditiis quibusdam, fuga minima dignissimos debitis! Quaerat est ipsam ratione fuga error
-					incidunt, ullam nemo numquam ex id delectus repellendus explicabo dolores facere placeat aspernatur
-					possimus quasi dolor? Eveniet inventore, quam ducimus non fugit ullam facilis expedita a minima
-					beatae odit laudantium error dignissimos hic voluptates vel nisi numquam ratione quisquam ipsam
-					dolorum atque. Consectetur quisquam id sequi perspiciatis? Laboriosam ut dolorum quos eius, ducimus
-					nulla hic delectus culpa similique exercitationem distinctio molestiae aperiam voluptatibus
-					voluptatum voluptas libero sunt sed iste, amet inventore rem non quasi? Rerum dolores nam soluta
-					consectetur. Pariatur debitis ipsa dolorem inventore, delectus illo voluptatum aperiam iusto ut
-					explicabo quasi id nulla saepe esse maxime commodi libero? Quis dolore sequi quo corrupti adipisci
-					reiciendis laudantium fugiat, similique tenetur quos reprehenderit qui ullam vel et laborum
-					laboriosam quibusdam eum earum ut quas vero quasi. Tempora sunt expedita a excepturi nostrum et
-					illum eos dolores tenetur, fugiat error facilis laboriosam iure aliquid? Non quis voluptas delectus
-					dolorem adipisci ratione commodi illo quo in facilis praesentium doloremque molestias,
-					exercitationem dicta dolorum odio molestiae suscipit aliquid cumque. Placeat, a facere doloribus
-					assumenda cupiditate, ratione eius omnis neque molestias beatae voluptatem ipsa sed pariatur optio?
-					Repellendus dolorum incidunt beatae eaque error commodi aspernatur qui optio voluptas aliquam.
-					Incidunt autem ipsum modi similique doloribus quas dolorum alias fuga ad distinctio laudantium
-					temporibus tempora deleniti pariatur quis, harum nostrum ratione nemo corrupti eaque aperiam? Id
-					eligendi fugit esse, culpa voluptatum magni veniam ea accusantium corporis minus nobis, impedit
-					veritatis debitis temporibus tenetur dignissimos dolores aliquid in quisquam harum at, recusandae
-					minima non neque! Sed, velit! Quos sunt, ipsam reprehenderit aliquam facere recusandae velit
-					exercitationem doloremque ducimus earum? Doloremque reiciendis, perferendis, pariatur illum ad
-					debitis aliquid, repellendus facere id dolor voluptates minus.
-					consect</h1>
+								<div class="card" style=" border-radius: 15px;">
+									<div class="card-body">
+										<blockquote class="blockquote blockquote-custom bg-white px-3 pt-4">
+											<div class="blockquote-custom-icon bg-info shadow-1-strong">
+												<i class="fa fa-quote-left text-white"></i>
+											</div>
+											<p class="mb-0 mt-2 font-italic">
+												"I know I can<br>
+												Be what I wanna be<br>
+												If I work hard at it<br>
+												I'll be where I wanna be"<br>
+											</p>
+											<footer class="blockquote-footer pt-4 mt-4 border-top">
+												<cite title="Source Title"> Nas </cite>
+											</footer>
+										</blockquote>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</section>
 			</div>
 
 		</div>
 	</div>
 
-	<!-- Wall page :  posted messages are displayed here. Standard you see 3 messages, but can add 2 messages each time you click on the button -->
+	<!-- Wall page :  posted messages are displayed here. -->
+
 	<div class="container d-none" id="wall-content">
+
+		<div class="spinner d-none">
+			<div class="spinner-border text-primary" id="spinner" role="status">
+				<span class="sr-only">Bittr...</span>
+			</div>
+		</div>
+
 		<div class="row mt-4">
 			<div class="col-md-10 mx-auto">
 				<!-- Timeline -->
@@ -101,21 +100,19 @@
 		<div class="row">
 
 			<div class="col-md-7">
-				<h2>What We Believe</h2>
-				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-					been the
-					industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
-					of type
-					and scrambled it to make a type specimen book. It has survived not only five centuries, but
-					also the
-					leap into electronic typesetting, remaining essentially unchanged. It was popularised in the
-					1960s
-					with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
-					desktop
-					publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+				<h2>What is Bittr</h2>
+				<p>Bittr is an Belgian microblogging and social networking service on which users post and interact
+					with messages known as "beets". Users can post and read. Users interact with Bittr
+					through browser. The service is provided by Bittr, Inc., a corporation based
+					in Anderlecht, Brussels, and has more than 25 offices around the world. Beets were
+					originally restricted to 250 characters, but now there is no limit.
+					Audio and video are still not allowed ... but picture is coming soon.
 			</div>
-			<div class="col-md-5 drop-cap-text"> <span class="drop-cap"><span class="drop-cap-letter">A</span></span> re
-				you look to expand It is a long established fact that a reader will be distracte </div>
+			<div class="col-md-5 drop-cap-text">
+				Bittr was created by Youssef Boubiba, Anant Van den Borg and Ismaël Saadi in March 2006 and launched
+				in July of that year. By 2012, more than 100 million users posted 340 million beets a day. In 2013, it
+				was one of the ten most-visited websites and has been described as "the SMS of the Internet".
+			</div>
 
 		</div>
 
@@ -131,10 +128,12 @@
 				<div class="card" style="width: 18rem;">
 					<img src="./img/Jordan.jpg" class="card-img-top" alt="...">
 					<div class="card-body">
-						<h5 class="card-title">Anant</h5>
-						<p class="card-text">Some quick example text to build on the card title and make up the bulk
-							of
-							the card's content.</p>
+						<h5 class="card-title"><b>Application Developer</b></h5>
+						<p class="card-text">
+							<b>Name:</b> Anant Van den Borg<br>
+							<b>Email:</b> anant.van.den.borg@bittr.be<br>
+							<b>Gsm:</b> 0496/24.94.18
+						</p>
 					</div>
 				</div>
 			</div>
@@ -143,12 +142,14 @@
 			<div class="col-12 col-md-4">
 
 				<div class="card" style="width: 18rem;">
-					<img src="./img/zizou.jpg" class="card-img-top" alt="...">
+					<img src="./img/zinedine.jpg" class="card-img-top" alt="...">
 					<div class="card-body">
-						<h5 class="card-title">Youssef</h5>
-						<p class="card-text">Some quick example text to build on the card title and make up the bulk
-							of
-							the card's content.</p>
+						<h5 class="card-title"><b>Business Manager</b></h5>
+						<p class="card-text">
+							<b>Name:</b> Youssef Boubiba <br>
+							<b>Email:</b> youssef.boubiba@bittr.be<br>
+							<b>Gsm:</b> 0475/64.32.01
+						</p>
 					</div>
 				</div>
 			</div>
@@ -159,10 +160,12 @@
 				<div class="card" style="width: 18rem;">
 					<img src="./img/Nad.jpg" class="card-img-top" alt="...">
 					<div class="card-body">
-						<h5 class="card-title">Ismael</h5>
-						<p class="card-text">Some quick example text to build on the card title and make up the bulk
-							of
-							the card's content.</p>
+						<h5 class="card-title"><b>Analyst</b></h5>
+						<p class="card-text">
+							<b>Name:</b> Ismaël Saadi <br>
+							<b>Email:</b> ismael.saadi@bittr.be<br>
+							<b>Gsm:</b> 04786/14.92.68
+						</p>
 					</div>
 				</div>
 			</div>

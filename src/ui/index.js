@@ -1,3 +1,6 @@
+
+//$(document).ajaxStop($.unblockUI);
+
 $(document).ready(function () {
 	$(".click-aboutus").click(function () {
 		$('#aboutus-content').show().removeClass('d-none');
@@ -21,6 +24,7 @@ $(document).ready(function () {
 		$('#aboutus-content').hide();
 		$('#home-content').hide();
 		$('#contact-content').hide();
+		//$.blockUI({ message: " Loading ...", css: { top: 'opx' } });
 		fetchBeets();
 	});
 
@@ -37,12 +41,14 @@ $(document).ready(function () {
 	})
 })
 
+
+
 async function postBeet() {
 	let oData = {
 		author: $("#beetAuthor").val(),
 		content: $("#beetContent").val()
 	};
-	debugger;
+
 	let oSetting = {
 		url: "http://127.0.0.1:3000/beets/",
 		type: "POST",
@@ -54,6 +60,7 @@ async function postBeet() {
 			"Access-Control-Allow-Headers": "*"
 		},
 		crossDomain: true
+
 	}
 	const beets = await executeAjax(oSetting);
 };
@@ -69,6 +76,16 @@ async function fetchBeets() {
 			"Access-Control-Allow-Headers": "*"
 		},
 		crossDomain: true
+		// beforeSend: function () {
+		// 	$("#loader").show();
+		// },
+		// complete: function () {
+		// 	$("#loader").hide();
+		// },
+		// // error: function(){
+		// 	$("#result").hmtl("Failed to fetch data");
+		// }
+
 	}
 	const beets = await executeAjax(oSetting);
 	beets.response.forEach(o => {
@@ -82,7 +99,11 @@ async function fetchBeets() {
 }
 
 let executeAjax = async (oSetting) => {
+
+
 	// SHOW busyindicator
+
+	// showSpinner();
 	let result;
 	try {
 		const response = await $.ajax(oSetting);
@@ -91,12 +112,29 @@ let executeAjax = async (oSetting) => {
 			response: response
 		};
 		// Hide busy indicator
+		//if(response) {
+		// 	hideSpinner();
+		// }
+
 	} catch (error) {
 		// hide busyindicator and show alert with error message
+		// function hideSpinner();
+		// alert(" The data is not found");
 		result = {
 			error: true,
 			response: error
+
 		};
 	}
+	// function hideSpinner() {
+	//	$('#spinner').addClass('d-none');
+	// 	document.getElementById('spinner')
+	// 		.style.display = 'none';
+	// }
+
+	// function showSpinner() {
+	//	$('#spinner').removeClass('d-none');
+	// 	document.getElementById('spinner').removeClass('d-none');
+	// }
 	return result;
 }
