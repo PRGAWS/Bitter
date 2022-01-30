@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "bitter-ui"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-uej2os9h121l"
+s3_prefix = "bitter-ui"
+region = "eu-central-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

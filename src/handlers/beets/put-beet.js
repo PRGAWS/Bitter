@@ -28,7 +28,7 @@ exports.handler = async (event) => {
 	let params = {
 		TableName: tableName,
 		Item: {
-			id: uuid.v4(),
+			id: body.id ? body.id : uuid.v4(),
 			createdOn: (new Date()).toString(),
 			content: content,
 			author: author

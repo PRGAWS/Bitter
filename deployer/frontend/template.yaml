@@ -1,0 +1,86 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Trends II Serverless website
+Globals:
+  Function:
+    Timeout: 180
+Resources:
+  # I make my S3 Bucket
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName: bittr
+  #The request to create a new origin access identity (OAI).
+  #An origin access identity is a special CloudFront user that you can associate with Amazon S3
+  #origins, so that you can secure all or just some of your Amazon S3 content.
+  CloudFrontOriginIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: origin identity
+  #A distribution tells CloudFront where you want content to be delivered from,
+  #and the details about how to track and manage content delivery.
+  publicDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        #List of origins that Cloudfront will connect to
+        Origins:
+          - DomainName: bittr.s3.eu-west-3.amazonaws.com
+            Id: bittr
+            #Restriction of access to the bucket via source access identity
+            S3OriginConfig:
+              OriginAccessIdentity:
+                Fn::Sub: origin-access-identity/cloudfront/${CloudFrontOriginIdentity}
+        Enabled: "true"
+        #To connect the CDN to the origins, you need to specify behaviour
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+          Compress: "true"
+          ViewerProtocolPolicy: redirect-to-https
+          TargetOriginId: bittr
+          DefaultTTL: 0
+          MinTTL: 0
+          MaxTTL: 0
+          ForwardedValues:
+            QueryString: "false"
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: "true"
+  #Applies an Amazon S3 bucket policy to an Amazon S3 bucket
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: S3Bucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: "*"
+            Action: s3:GetObject
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:s3:::"
+                  - Ref: S3Bucket
+                  - /*
+Outputs:
+  WebsiteURL:
+    Value:
+      Fn::GetAtt:
+        - S3Bucket
+        - WebsiteURL
+    Description: URL for website hosted on S3
+  S3BucketSecureURL:
+    Value:
+      Fn::Join:
+        - ""
+        - - https://
+          - Fn::GetAtt:
+              - S3Bucket
+              - DomainName
+    Description: Name of S3 bucket to hold website content

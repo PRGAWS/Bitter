@@ -30,10 +30,8 @@ Globals:
       AllowHeaders: "'*'"
       AllowOrigin: "'*'"
 Resources:
-  # BEETS Lambda
-  # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-  # This is a Lambda function config associated with the source code: get-all-items.js
+  # BEETS Lambda: GET all beets
   getAllBeetsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -49,16 +47,13 @@ Resources:
           Properties:
             Path: /beets/all
             Method: GET
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-  # This is a Lambda function config associated with the source code: get-by-id.js
+  # BEETS Lambda: GET beet by id
   getBeetByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/beets/get-beet-by-id.handler
       Description: Get one beet by id from table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the Beets table
         - DynamoDBCrudPolicy:
             TableName: !Ref Beets
       Events:
@@ -67,16 +62,13 @@ Resources:
           Properties:
             Path: /beets/{id}
             Method: GET
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-  # This is a Lambda function config associated with the source code: get-by-id.js
+  # BEETS Lambda: DELETE beet by id
   deleteBeetByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/beets/delete-beet-by-id.handler
       Description: Delete one beet by id from table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the Beets table
         - DynamoDBCrudPolicy:
             TableName: !Ref Beets
       Events:
@@ -85,16 +77,13 @@ Resources:
           Properties:
             Path: /beets/{id}
             Method: DELETE
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-  # This is a Lambda function config associated with the source code: put-item.js
+  # BEETS Lambda: PUT beet
   putBeetFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/beets/put-beet.handler
       Description: Add one beet to table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the Beets table
         - DynamoDBCrudPolicy:
             TableName: !Ref Beets
       Events:
@@ -103,14 +92,13 @@ Resources:
           Properties:
             Path: /beets/
             Method: POST
-    # USERS Lambda
+  # USERS Lambda: GET all users
   getAllUsersFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/users/get-all-users.handler
       Description: Get all users from table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the Users table
         - DynamoDBCrudPolicy:
             TableName: !Ref Users
       Events:
@@ -119,16 +107,13 @@ Resources:
           Properties:
             Path: /users/all
             Method: GET
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-  # This is a Lambda function config associated with the source code: get-by-id.js
+  # USERS Lambda: GET user by id
   getUserByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/users/get-user-by-id.handler
       Description: Get one user by id from table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the Users table
         - DynamoDBCrudPolicy:
             TableName: !Ref Users
       Events:
@@ -137,16 +122,13 @@ Resources:
           Properties:
             Path: /users/{id}
             Method: GET
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-  # This is a Lambda function config associated with the source code: get-by-id.js
+  # USERS Lambda: DELETE user by id
   deleteUserByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/users/delete-user-by-id.handler
       Description: Delete one user by id from table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the Users table
         - DynamoDBCrudPolicy:
             TableName: !Ref Users
       Events:
@@ -155,16 +137,13 @@ Resources:
           Properties:
             Path: /users/{id}
             Method: DELETE
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-  # This is a Lambda function config associated with the source code: put-item.js
+  # USERS Lambda: PUT user
   putUserFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/users/put-user.handler
       Description: Add one user to table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the Users table
         - DynamoDBCrudPolicy:
             TableName: !Ref Users
       Events:
@@ -173,11 +152,8 @@ Resources:
           Properties:
             Path: /users/
             Method: POST
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-  # This is a Lambda function config associated with the source code: get-by-id.j
+  # IMAGES Lambda: GET upload URL
   GetImageUploadURLFunction:
-    # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/images/initiate-image-upload.handler
@@ -194,12 +170,6 @@ Resources:
       Environment:
         Variables:
           UploadBucket: !Ref S3UploadBucket
-      # Events:
-      #   Api:
-      #     Type: Api
-      #     Properties:
-      #       Path: /images
-      #       Method: GET
       Events:
         UploadAssetAPI:
           Type: HttpApi
@@ -207,9 +177,7 @@ Resources:
             Path: /images
             Method: get
             ApiId: !Ref MyApi
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-  # This is a Lambda function config associated with the source code: get-by-id.j
+  # IMAGES Lambda: Store metadata in DynamoDB after S3 event
   IndexerFunction:
     Type: "AWS::Serverless::Function"
     Properties:
@@ -227,10 +195,7 @@ Resources:
             Bucket: !Ref S3UploadBucket
             Events:
               - "s3:ObjectCreated:*"
-
-  # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
-  # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
+  # Simple Tables
   Beets:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -241,9 +206,6 @@ Resources:
         ReadCapacityUnits: 2
         WriteCapacityUnits: 2
       TableName: beets
-  # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
-  # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
   Users:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -254,9 +216,6 @@ Resources:
         ReadCapacityUnits: 2
         WriteCapacityUnits: 2
       TableName: users
-  # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
-  # Main table for storing the core entities in the app (uses single table overloaded index design)
   ImagesMetadata:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -297,7 +256,6 @@ Resources:
               - HEAD
             AllowedOrigins:
               - "*"
-
 Outputs:
   WebEndpoint:
     Description: "API Gateway endpoint URL for Prod stage"
