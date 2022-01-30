@@ -35,6 +35,7 @@ Resources:
   getAllBeetsFunction:
     Type: AWS::Serverless::Function
     Properties:
+      CodeUri: ./../..
       Handler: src/handlers/beets/get-all-beets.handler
       Description: Get all beets from table.
       Policies:
@@ -47,40 +48,41 @@ Resources:
           Properties:
             Path: /beets/all
             Method: GET
-  # BEETS Lambda: GET beet by id
-  getBeetByIdFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/beets/get-beet-by-id.handler
-      Description: Get one beet by id from table.
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref Beets
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /beets/{id}
-            Method: GET
-  # BEETS Lambda: DELETE beet by id
-  deleteBeetByIdFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/beets/delete-beet-by-id.handler
-      Description: Delete one beet by id from table.
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref Beets
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /beets/{id}
-            Method: DELETE
-  # BEETS Lambda: PUT beet
+  #  # BEETS Lambda: GET beet by id
+  #  getBeetByIdFunction:
+  #    Type: AWS::Serverless::Function
+  #    Properties:
+  #      Handler: ../../src/handlers/beets/get-beet-by-id.handler
+  #      Description: Get one beet by id from table.
+  #      Policies:
+  #        - DynamoDBCrudPolicy:
+  #            TableName: !Ref Beets
+  #      Events:
+  #        Api:
+  #          Type: Api
+  #          Properties:
+  #            Path: /beets/{id}
+  #            Method: GET
+  #  # BEETS Lambda: DELETE beet by id
+  #  deleteBeetByIdFunction:
+  #    Type: AWS::Serverless::Function
+  #    Properties:
+  #      Handler: ../../src/handlers/beets/delete-beet-by-id.handler
+  #      Description: Delete one beet by id from table.
+  #      Policies:
+  #        - DynamoDBCrudPolicy:
+  #            TableName: !Ref Beets
+  #      Events:
+  #        Api:
+  #          Type: Api
+  #          Properties:
+  #            Path: /beets/{id}
+  #            Method: DELETE
+  #  # BEETS Lambda: PUT beet
   putBeetFunction:
     Type: AWS::Serverless::Function
     Properties:
+      CodeUri: ./../..
       Handler: src/handlers/beets/put-beet.handler
       Description: Add one beet to table.
       Policies:
@@ -92,70 +94,71 @@ Resources:
           Properties:
             Path: /beets/
             Method: POST
-  # USERS Lambda: GET all users
-  getAllUsersFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/users/get-all-users.handler
-      Description: Get all users from table.
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref Users
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /users/all
-            Method: GET
-  # USERS Lambda: GET user by id
-  getUserByIdFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/users/get-user-by-id.handler
-      Description: Get one user by id from table.
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref Users
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /users/{id}
-            Method: GET
-  # USERS Lambda: DELETE user by id
-  deleteUserByIdFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/users/delete-user-by-id.handler
-      Description: Delete one user by id from table.
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref Users
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /users/{id}
-            Method: DELETE
-  # USERS Lambda: PUT user
-  putUserFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/users/put-user.handler
-      Description: Add one user to table.
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref Users
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /users/
-            Method: POST
+  #  # USERS Lambda: GET all users
+  #  getAllUsersFunction:
+  #    Type: AWS::Serverless::Function
+  #    Properties:
+  #      Handler: ../../src/handlers/users/get-all-users.handler
+  #      Description: Get all users from table.
+  #      Policies:
+  #        - DynamoDBCrudPolicy:
+  #            TableName: !Ref Users
+  #      Events:
+  #        Api:
+  #          Type: Api
+  #          Properties:
+  #            Path: /users/all
+  #            Method: GET
+  #  # USERS Lambda: GET user by id
+  #  getUserByIdFunction:
+  #    Type: AWS::Serverless::Function
+  #    Properties:
+  #      Handler: ../../src/handlers/users/get-user-by-id.handler
+  #      Description: Get one user by id from table.
+  #      Policies:
+  #        - DynamoDBCrudPolicy:
+  #            TableName: !Ref Users
+  #      Events:
+  #        Api:
+  #          Type: Api
+  #          Properties:
+  #            Path: /users/{id}
+  #            Method: GET
+  #  # USERS Lambda: DELETE user by id
+  #  deleteUserByIdFunction:
+  #    Type: AWS::Serverless::Function
+  #    Properties:
+  #      Handler: ../../src/handlers/users/delete-user-by-id.handler
+  #      Description: Delete one user by id from table.
+  #      Policies:
+  #        - DynamoDBCrudPolicy:
+  #            TableName: !Ref Users
+  #      Events:
+  #        Api:
+  #          Type: Api
+  #          Properties:
+  #            Path: /users/{id}
+  #            Method: DELETE
+  #  # USERS Lambda: PUT user
+  #  putUserFunction:
+  #    Type: AWS::Serverless::Function
+  #    Properties:
+  #      Handler: ../../src/handlers/users/put-user.handler
+  #      Description: Add one user to table.
+  #      Policies:
+  #        - DynamoDBCrudPolicy:
+  #            TableName: !Ref Users
+  #      Events:
+  #        Api:
+  #          Type: Api
+  #          Properties:
+  #            Path: /users/
+  #            Method: POST
   # IMAGES Lambda: GET upload URL
   GetImageUploadURLFunction:
     Type: AWS::Serverless::Function
     Properties:
+      CodeUri: ./../..
       Handler: src/handlers/images/initiate-image-upload.handler
       Policies:
         - S3WritePolicy:
@@ -181,6 +184,7 @@ Resources:
   IndexerFunction:
     Type: "AWS::Serverless::Function"
     Properties:
+      CodeUri: ./../..
       Handler: src/handlers/images/put-image-metadata.handler
       Environment:
         Variables:

@@ -44,7 +44,8 @@ async function postBeet() {
 		content: $("#beetContent").val()
 	};
 	let oSetting = {
-		url: "http://127.0.0.1:3000/beets/",
+		//url: "http://127.0.0.1:3000/beets/",
+		url: "https://ar9kc22cve.execute-api.eu-central-1.amazonaws.com/Prod/",
 		type: "POST",
 		dataType: "json",
 		data: JSON.stringify(oData),

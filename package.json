@@ -13,8 +13,8 @@
     },
     "scripts": {
         "test": "jest",
-        "deploy:backend": "sam.cmd build --use-container && sam.cmd deploy --guided",
-        "deploy:frontend": "cd deployer && cd frontend && sam.cmd build && sam.cmd deploy --guided && cd .. && cd .. && cd src && aws s3 sync ui s3://bittr && cd ..",
+        "deploy:backend": " cd deployer && cd backend && sam.cmd build --use-container && sam.cmd deploy --guided && cd .. && cd ..",
+        "deploy:s3ui": "cd deployer && cd frontend && sam.cmd build && sam.cmd deploy --guided && cd .. && cd .. && cd ..",
         "build:container": "sam.cmd build --use-container",
         "start:container": "sam.cmd local start-api -t template.yaml --docker-network local-dynamodb --skip-pull-image --profile default --parameter-overrides 'ParameterKey=StageName,ParameterValue=local ParameterKey=DDBTableName,ParameterValue=local-SingleTable' ",
         "db:create_dynamodb": "cd local && cd docker && docker-compose up -d && cd .. && cd ..",

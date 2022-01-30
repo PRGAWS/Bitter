@@ -2,9 +2,9 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-stack_name = "bitter-frontend"
+stack_name = "bitter-backend"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-uej2os9h121l"
-s3_prefix = "bitter-frontend"
+s3_prefix = "bitter-backend"
 region = "eu-central-1"
 capabilities = "CAPABILITY_IAM"
 image_repositories = []
