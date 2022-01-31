@@ -1,6 +1,3 @@
-
-//$(document).ajaxStop($.unblockUI);
-
 $(document).ready(function () {
 	$(".click-aboutus").click(function () {
 		$('#aboutus-content').show().removeClass('d-none');
@@ -22,7 +19,6 @@ $(document).ready(function () {
 		$('#aboutus-content').hide();
 		$('#home-content').hide();
 		$('#contact-content').hide();
-		//$.blockUI({ message: " Loading ...", css: { top: 'opx' } });
 		fetchBeets();
 	});
 	$(".click-home").click(function () {
@@ -36,16 +32,14 @@ $(document).ready(function () {
 	})
 })
 
-
-
 async function postBeet() {
 	let oData = {
 		author: $("#beetAuthor").val(),
 		content: $("#beetContent").val()
 	};
 	let oSetting = {
-		//url: "http://127.0.0.1:3000/beets/",
-		url: "https://ar9kc22cve.execute-api.eu-central-1.amazonaws.com/Prod/beets",
+		url: "http://127.0.0.1:3000/beets/",
+		//url: "https://ar9kc22cve.execute-api.eu-central-1.amazonaws.com/Prod/beets",
 		type: "POST",
 		dataType: "json",
 		data: JSON.stringify(oData),
@@ -57,14 +51,17 @@ async function postBeet() {
 		crossDomain: true
 
 	}
+	$('.modal').modal('hide');
 	const beets = await executeAjax(oSetting);
-	// close popup
+	if (!beets.error) {
+		navToWall();
+	}
 };
 
 async function fetchBeets() {
 	let oSetting = {
-		//url: "http://127.0.0.1:3000/beets/all",
-		url: "https://ar9kc22cve.execute-api.eu-central-1.amazonaws.com/Prod/beets/all",
+		url: "http://127.0.0.1:3000/beets/all",
+		//url: "https://ar9kc22cve.execute-api.eu-central-1.amazonaws.com/Prod/beets/all",
 		type: "GET",
 		dataType: "json",
 		headers: {
@@ -73,16 +70,6 @@ async function fetchBeets() {
 			"Access-Control-Allow-Headers": "*"
 		},
 		crossDomain: true
-		// beforeSend: function () {
-		// 	$("#loader").show();
-		// },
-		// complete: function () {
-		// 	$("#loader").hide();
-		// },
-		// // error: function(){
-		// 	$("#result").hmtl("Failed to fetch data");
-		// }
-
 	}
 	const oBeets = await executeAjax(oSetting);
 	let beets = oBeets.response;
@@ -96,21 +83,22 @@ async function fetchBeets() {
 	});
 	beets = beets.sort((a, b) => a.createdOn - b.createdOn);
 	beets.forEach(o => {
-		$("#content").after(`<div class="timeline-item dynamicBeets">
-		<span class="icon icon-info icon-lg"><i class="fab fa-react"></i></span>
-		<h5 class="my-3">${o.author}</h5>
-		<p>${o.content}
-		</p>
-	</div>`);
+		$("#content").after(`
+		<div class="timeline-item dynamicBeets">
+			<hr>
+			<h4>
+				<img src="img/avatar.png" alt="Avatar" class="avatar">
+				${o.author}
+			</h4>
+			<h5>${o.content}</h5>
+			<p>Posted on: ${dayjs(o.createdOn).format("HH:MM - DD/MM/YYYY")}</p>
+			<hr>
+		</div>`);
 	});
 }
 
 let executeAjax = async (oSetting) => {
-
-
-	// SHOW busyindicator
-
-	// showSpinner();
+	$("#loader").attr("hidden", false);
 	let result;
 	try {
 		const response = await $.ajax(oSetting);
@@ -118,30 +106,21 @@ let executeAjax = async (oSetting) => {
 			error: false,
 			response: response
 		};
-		// Hide busy indicator
-		//if(response) {
-		// 	hideSpinner();
-		// }
-
 	} catch (error) {
-		// hide busyindicator and show alert with error message
-		// function hideSpinner();
-		// alert(" The data is not found");
 		result = {
 			error: true,
 			response: error
-
 		};
 	}
-	// function hideSpinner() {
-	//	$('#spinner').addClass('d-none');
-	// 	document.getElementById('spinner')
-	// 		.style.display = 'none';
-	// }
-
-	// function showSpinner() {
-	//	$('#spinner').removeClass('d-none');
-	// 	document.getElementById('spinner').removeClass('d-none');
-	// }
+	$("#loader").attr("hidden", true);
 	return result;
+}
+
+let navToWall = function () {
+	$(".dynamicBeets").remove();
+	$('#wall-content').show().removeClass('d-none');
+	$('#aboutus-content').hide();
+	$('#home-content').hide();
+	$('#contact-content').hide();
+	fetchBeets();
 }

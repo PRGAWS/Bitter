@@ -7,14 +7,16 @@
 		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="stylesheet" href="./CSS/style.css">
 	<title>Bittr</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/dayjs.min.js"></script>
 </head>
 
 <body>
+	<div id="loader" hidden="true"></div>
 	<!-- Navigatie bar -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mb-5">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mb-0">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="index.html">
-				<img src="./img/network.jpg" alt="" height="60">
+				<img src="./img/home.png" alt="" width="60" height="60">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -69,20 +71,15 @@
 					</div>
 				</section>
 			</div>
-
 		</div>
 	</div>
-
 	<!-- Wall page :  posted messages are displayed here. -->
-
 	<div class="container d-none" id="wall-content">
-
 		<div class="spinner d-none">
 			<div class="spinner-border text-primary" id="spinner" role="status">
 				<span class="sr-only">Bittr...</span>
 			</div>
 		</div>
-
 		<div class="row mt-4">
 			<div class="col-md-10 mx-auto">
 				<!-- Timeline -->
@@ -94,11 +91,9 @@
 			</div>
 		</div>
 	</div>
-
 	<!-- About us page -->
 	<div class="container d-none" id="aboutus-content">
 		<div class="row">
-
 			<div class="col-md-7">
 				<h2>What is Bittr</h2>
 				<p>Bittr is an Belgian microblogging and social networking service on which users post and interact
@@ -106,25 +101,20 @@
 					through browser. The service is provided by Bittr, Inc., a corporation based
 					in Anderlecht, Brussels, and has more than 25 offices around the world. Beets were
 					originally restricted to 250 characters, but now there is no limit.
-					Audio and video are still not allowed ... but picture is coming soon.
+					Audio and video are still not allowed ... but picture is coming soon.</p>
+				<p>
+					Bittr was created by Youssef B., Anant Van den Berg and Ismaël Saadi in March 2006 and launched
+					in July of that year. By 2012, more than 100 million users posted 340 million beets a day. In 2013,
+					it
+					was one of the ten most-visited websites and has been described as "the SMS of the Internet".
+				</p>
 			</div>
-			<div class="col-md-5 drop-cap-text">
-				Bittr was created by Youssef Boubiba, Anant Van den Borg and Ismaël Saadi in March 2006 and launched
-				in July of that year. By 2012, more than 100 million users posted 340 million beets a day. In 2013, it
-				was one of the ten most-visited websites and has been described as "the SMS of the Internet".
-			</div>
-
 		</div>
-
-
 	</div>
-
 	<!-- Contact page -->
 	<div class="container-fluid d-none" id="contact-content">
 		<div class="row">
-
 			<div class="col-12 col-md-4">
-
 				<div class="card" style="width: 18rem;">
 					<img src="./img/Jordan.jpg" class="card-img-top" alt="...">
 					<div class="card-body">
@@ -137,26 +127,20 @@
 					</div>
 				</div>
 			</div>
-
-
 			<div class="col-12 col-md-4">
-
 				<div class="card" style="width: 18rem;">
 					<img src="./img/zinedine.jpg" class="card-img-top" alt="...">
 					<div class="card-body">
 						<h5 class="card-title"><b>Business Manager</b></h5>
 						<p class="card-text">
-							<b>Name:</b> Youssef Boubiba <br>
-							<b>Email:</b> youssef.boubiba@bittr.be<br>
+							<b>Name:</b> Youssef B. <br>
+							<b>Email:</b> youssef.b@bittr.be<br>
 							<b>Gsm:</b> 0475/64.32.01
 						</p>
 					</div>
 				</div>
 			</div>
-
-
 			<div class="col-12 col-md-4">
-
 				<div class="card" style="width: 18rem;">
 					<img src="./img/Nad.jpg" class="card-img-top" alt="...">
 					<div class="card-body">
@@ -171,8 +155,6 @@
 			</div>
 
 		</div>
-
-
 	</div>
 	<!-- The button with wich you can post a message -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -202,15 +184,12 @@
 			</div>
 		</div>
 	</div>
-
-
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script src="https://pixelcog.github.io/parallax.js/js/parallax.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 		crossorigin="anonymous"></script>
 	<script src="index.js"></script>
-
 </body>
 
 </html>
