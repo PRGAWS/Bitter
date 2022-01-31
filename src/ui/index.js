@@ -38,8 +38,7 @@ async function postBeet() {
 		content: $("#beetContent").val()
 	};
 	let oSetting = {
-		url: "http://127.0.0.1:3000/beets/",
-		//url: "https://ar9kc22cve.execute-api.eu-central-1.amazonaws.com/Prod/beets",
+		url: `${IS_PRODUCTION ? PROD_API : LOCAL_API}${BEETS}`,
 		type: "POST",
 		dataType: "json",
 		data: JSON.stringify(oData),
@@ -60,8 +59,7 @@ async function postBeet() {
 
 async function fetchBeets() {
 	let oSetting = {
-		url: "http://127.0.0.1:3000/beets/all",
-		//url: "https://ar9kc22cve.execute-api.eu-central-1.amazonaws.com/Prod/beets/all",
+		url: `${IS_PRODUCTION ? PROD_API : LOCAL_API}${ALL_BEETS}`,
 		type: "GET",
 		dataType: "json",
 		headers: {

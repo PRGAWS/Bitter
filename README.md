@@ -11,7 +11,10 @@ Store url value from the output in the terminal
 ==> https://${ServerlessRestApi}.execute-api.${AWS::Region}1.amazonaws.com/Prod/
 
 ## Frontend Deployment of the application:
-Before proceeding with deployment, make sure the previous api url is used in de frontend ajax calls
+Before proceeding with deployment, make sure the previous api url is stored in "PROD_API" (path = src/ui/configuration.js).
+
+### Local vs Live settings
+If you want to test the app locally, make sure "IS_PRODUCTION" constant in the configuration file of the ui is set to false.
 
 ### Create S3 bucket for UI
 Execute following script:
