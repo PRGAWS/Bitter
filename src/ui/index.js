@@ -91,7 +91,7 @@ async function fetchBeets() {
 				${o.author}
 			</h4>
 			<h5>${o.content}</h5>
-			<p>Posted on: ${dayjs(o.createdOn).format("HH:MM - DD/MM/YYYY")}</p>
+			<p>Posted on: ${dayjs(o.createdOn).format("HH:mm - DD/MM/YYYY")}</p>
 			<hr>
 		</div>`);
 	});
